@@ -13,7 +13,8 @@ pipeline {
         }
         stage('Init') {
             steps {
-                sh 'chmod +x gradlew'
+                sh 'chmod a+x gradlew'
+                sh 'chmod a+x acceptance_test.bash'
             }
         }
         stage('Compile') {
@@ -75,7 +76,7 @@ pipeline {
                     docker.withServer('tcp://docker:2376', '') {
                         dockerImage.withRun('-p 8090:8090') {
                             sleep 10
-                            sh 'curl -X GET http://docker:8090/sum?a=1\\&b=3'
+                            sh './acceptance_test.bash'
                         }
                     }
                 }
