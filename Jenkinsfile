@@ -42,5 +42,10 @@ pipeline {
                 ])
             }
         }
+        stage ('Packaging') {
+            steps {
+                sh './gradlew build'
+            }
+        }
     }
 }
