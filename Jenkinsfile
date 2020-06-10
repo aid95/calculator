@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    environment {
+        registry = 'imgomi/calculator'
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -45,6 +50,13 @@ pipeline {
         stage ('Packaging') {
             steps {
                 sh './gradlew build'
+            }
+        }
+        stage ('Deploy image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
     }
